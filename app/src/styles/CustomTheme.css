@@ -1,0 +1,21 @@
+.el-tabs__nav-scroll {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.el-tabs__nav-wrap {
+    box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+
+.el-menu-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.el-menu li i.material-icons {
+    margin-right: 16px;
+}

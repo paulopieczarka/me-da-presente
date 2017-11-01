@@ -1,0 +1,39 @@
+.app {
+    flex: 1;
+    background: #F9FAFC;
+    display: flex;
+    flex-direction: column;
+}
+
+*:focus {
+    outline: none;
+}
+
+header {
+    height: 56px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    color: #20A0FF;
+}
+
+button.md-icon {
+    font-family: "Material Icons";
+    font-size: 24px;
+    padding: 0px;
+    margin: 0px;
+    line-height: 1px;
+    background: none;
+    border: none;
+    color: rgba(0,0,0,.5);
+}
+
+button.md-icon:hover {
+    color: black;
+}
+
+main {
+    flex: 1;
+}

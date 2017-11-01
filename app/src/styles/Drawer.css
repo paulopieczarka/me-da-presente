@@ -1,0 +1,30 @@
+.drawer {
+    position: absolute;
+    background: #eef1f6;
+    left: 0; top: 0;
+    height: 100%;
+    min-width: 270px;
+    max-width: 320px;
+    width: 50%;
+    z-index: 999;
+    box-shadow: 2px 0 6px rgba(0,0,0,.1);
+    transform: translateX(-110%);
+    transition: ease-in-out .2s;
+}
+
+.drawer.open {
+    transform: translateX(0);
+}
+
+.user-drawer {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background: #E5E9F2;
+    
+}
+
+.user-drawer button.md-icon {
+    color: rgba(0,0,0,.6);
+}
