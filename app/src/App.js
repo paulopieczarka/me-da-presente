@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs } from 'element-react';
+import { Badge, Tabs } from 'element-react';
 import Products from "./pages/Products";
 import Drawer from "./components/Drawer";
 
@@ -28,7 +28,9 @@ class App extends Component
             <header>
                 <button className="md-icon" onClick={this.toggleDrawer.bind(this)}>menu</button>
                 <div className="app-title">Me Da Presente</div>
-                <button className="md-icon">shopping_cart</button>
+                <Badge isDot>
+                    <button className="md-icon">favorite</button>
+                </Badge>
             </header>
 
             <Drawer open={this.state.isDrawerOpen} close={this.toggleDrawer.bind(this)} />
@@ -40,6 +42,8 @@ class App extends Component
                     <Tabs.Pane label="Amigos" name="3">Amigos</Tabs.Pane>
                 </Tabs>
             </main>
+
+            <button className="float">add</button>
         </div>;
     }
 }

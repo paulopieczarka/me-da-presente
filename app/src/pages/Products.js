@@ -6,7 +6,7 @@ class Products extends Component
     componentDidMount()
     {
         fetch(
-            "http://localhost:8000/api/products",
+            "http://192.168.1.104:8000/api/products",
             { mode: "cors" }
         )
         .then(response => response.json())
