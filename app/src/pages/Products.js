@@ -22,9 +22,11 @@ class Products extends Component
             {state && state.products.exclusives.map(p => 
                 <div key={p.id}>{p.name}</div>
             )}
-            {!state && <Loading loading={true} text="Loading..." fullscreen={true} />}
+            
         </div>;
     }
 }
 
 export default Products;
+
+// {!state && <Loading loading={true} text="Loading..." fullscreen={true} />}

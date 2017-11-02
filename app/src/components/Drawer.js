@@ -1,6 +1,27 @@
 import React, { Component } from "react";
 import { Menu } from 'element-react';
+import { Link } from 'react-router-dom';
 import "../styles/Drawer.css";
+
+const MenuItems = 
+[
+    { 
+        name: "Menu",
+        links: [
+            { key: 0, icon: "account_circle", path: "/profile", title: "Profile" },
+            { key: 1, icon: "settings", path: "/settings", title: "Settings" },
+            { key: 2, icon: "exit_to_app", path: "/logout", title: "Log out" }
+        ]
+    },
+    { 
+        name: "Administrator",
+        links: [
+            { key: 3, icon: "add_circle", path: "/products/add", title: "New Product" },
+            { key: 4, icon: "list", path: "/products", title: "Products" },
+            { key: 5, icon: "data_usage", path: "/analytics", title: "Analytics" }
+        ]
+    }
+];
 
 class Drawer extends Component
 {
@@ -11,6 +32,10 @@ class Drawer extends Component
         this.state = {
             isOpen: this.props.open
         }
+    }
+
+    onSelect() {
+        this.props.close();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,17 +49,14 @@ class Drawer extends Component
                 <div className="user-drawer">
                     <button className="md-icon" onClick={this.props.close}>arrow_back</button>
                 </div>
-                <Menu mode="vertical" defaultActive="1" className="el-menu-vertical-demo" style={{borderRadius:0}}>
-                    <Menu.ItemGroup title="Menu">
-                        <Menu.Item index="1"><i className="material-icons">account_circle</i>Profile</Menu.Item>
-                        <Menu.Item index="2"><i className="material-icons">settings</i>Settings</Menu.Item>
-                        <Menu.Item index="3"><i className="material-icons">exit_to_app</i>Logout</Menu.Item>
-                    </Menu.ItemGroup>
-                    <Menu.ItemGroup title="Administrator">
-                        <Menu.Item index="4"><i className="material-icons">add_circle</i>New Product</Menu.Item>
-                        <Menu.Item index="5"><i className="material-icons">list</i>Products</Menu.Item>
-                        <Menu.Item index="6"><i className="material-icons">data_usage</i>Analytics</Menu.Item>
-                    </Menu.ItemGroup>
+                <Menu mode="vertical" className="el-menu-vertical-demo" style={{borderRadius:0}} onSelect={this.onSelect.bind(this)}>
+                    
+                {MenuItems.map(group => <Menu.ItemGroup key={group.name} title={group.name}>
+                    {group.links.map(link => <Link key={link.key} to={link.path}>
+                        <Menu.Item index={`${link.key}`}><i className="material-icons">{link.icon}</i>{link.title}</Menu.Item>
+                    </Link>)}
+                </Menu.ItemGroup>)}
+
                 </Menu>
             </div>
         </div>;

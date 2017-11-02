@@ -26,3 +26,7 @@
 .el-menu li i.material-icons {
     margin-right: 16px;
 }
+
+ul a {
+    text-decoration: none;
+}

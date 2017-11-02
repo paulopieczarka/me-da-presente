@@ -1,11 +1,18 @@
 import React, { Component } from "react";
-import { Badge, Tabs } from 'element-react';
-import Products from "./pages/Products";
+import { Badge } from 'element-react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
+import Home from "./pages/Home";
 import Drawer from "./components/Drawer";
 
 import 'element-theme-default';
 import "./styles/CustomTheme.css";
 import "./styles/App.css";
+
+const MenuButton = (props) => <div>
+    {!props.back && <button className="md-icon" onClick={props.toggleDrawer}>menu</button>}
+    {props.back && <button className="md-icon" onClick={props.home}><Link to="/">arrow_back</Link></button>}
+</div>;
 
 class App extends Component
 {
@@ -14,19 +21,33 @@ class App extends Component
         super(props);
 
         this.state = {
+            outsideHome: false,
             isDrawerOpen: false
         }
     }
 
     toggleDrawer() {
+        this.goHome();
         this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+    }
+
+    goHome() 
+    {
+        /* TODO: Do it better. */
+        setTimeout(() => {
+            this.setState({ outsideHome: (window.location.pathname !== "/") });
+        }, 5);
     }
 
     render()
     {
-        return <div className="app">
+        return <Router><div className="app">
             <header>
-                <button className="md-icon" onClick={this.toggleDrawer.bind(this)}>menu</button>
+                <MenuButton 
+                    toggleDrawer={this.toggleDrawer.bind(this)} 
+                    home={this.goHome.bind(this)} 
+                    back={this.state.outsideHome} 
+                />
                 <div className="app-title">Me Da Presente</div>
                 <Badge isDot>
                     <button className="md-icon">favorite</button>
@@ -36,15 +57,11 @@ class App extends Component
             <Drawer open={this.state.isDrawerOpen} close={this.toggleDrawer.bind(this)} />
 
             <main>
-                <Tabs activeName="1" onTabClick={ (tab) => console.log(tab.props.name) }>
-                    <Tabs.Pane label="Produtos" name="1"><Products /></Tabs.Pane>
-                    <Tabs.Pane label="Listas" name="2">Listas</Tabs.Pane>
-                    <Tabs.Pane label="Amigos" name="3">Amigos</Tabs.Pane>
-                </Tabs>
+                <Route exact path="/" component={Home} />
             </main>
 
-            <button className="float">add</button>
-        </div>;
+            <button className={`float${this.state.outsideHome?" hide":""}`}>add</button>
+        </div></Router>;
     }
 }
 
