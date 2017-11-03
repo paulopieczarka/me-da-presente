@@ -3,6 +3,7 @@ import { Badge } from 'element-react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import Home from "./pages/Home";
+import ProductsAdd from "./pages/ProductsAdd";
 import Drawer from "./components/Drawer";
 
 import 'element-theme-default';
@@ -58,6 +59,7 @@ class App extends Component
 
             <main>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/products/add" component={ProductsAdd} />
             </main>
 
             <button className={`float${this.state.outsideHome?" hide":""}`}>add</button>

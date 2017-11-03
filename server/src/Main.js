@@ -1,10 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const mongoose = require('./Database');
 const Category = require("./controller/Category");
+const Product = require("./controller/Product");
+
+const UploadController = require("./controller/Upload");
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 
@@ -17,10 +23,13 @@ db.once('open', function() {
 
 var Start = () =>
 {
-    // Category.seedData();
+    // Category._seedData();
     
     // Routes.
     Category.createRoutes(app, "/api");
+    Product.createRoutes(app, "/api");
+
+    UploadController(app, "/api"); // Add upload controller.
     
     app.get('/api/products', function (req, res) {
         res.send(products);

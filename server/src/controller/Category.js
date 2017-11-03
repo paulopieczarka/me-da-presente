@@ -10,7 +10,7 @@ class Category extends Controller
 
     _add(name) {
         const { Category } = Models;
-        (new Category({ name: name })).save(err => super.throwError(err));
+        (new Category({ name: name })).save(err => super._throwError(err));
     }
 
     _get(id, callback) 
@@ -57,7 +57,7 @@ class Category extends Controller
     }
 
     _seedData() {
-        this.add("froyo");
+        this._add("froyo");
     }
 }
 

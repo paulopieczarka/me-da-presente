@@ -6,9 +6,8 @@ class Controller
 
     createRoutes(app, basicRoute) 
     {
-
-        var propertyNames = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
-        console.log(propertyNames);
+        // var propertyNames = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
+        // console.log(propertyNames);
 
         console.log("Route: ", `${basicRoute}/${this.name}`, this);
 
