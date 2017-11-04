@@ -18,7 +18,7 @@ export default function Fetcher(url, method = "GET", payload)
 }
 
 export const Image = props => {
-    return <img src={`${WS_URL}/img/${props.uid}`} {...props} />;
+    return <img src={`${WS_URL}/img/${props.uid}`} alt="" {...props} />;
 };
 
 export const Category =
@@ -32,7 +32,11 @@ export const Product =
 {
     add: (data) => {
         return Fetcher("/product/add", "POST", data);
-    }
+    },
+
+    list: () => {
+        return Fetcher("/product/list");    
+    }   
 };
 
 export const User =
@@ -43,7 +47,18 @@ export const User =
 
     signin: (data) => {
         return Fetcher("/user/signin", "POST", data);
+    },
+
+    profile: (uid) => {
+        return Fetcher(`/user/profile/${uid}`);
     }
-}
+};
+
+export const Wishlist =
+{
+    get: (uid, data) => {
+        return Fetcher(`/wishlist/${uid}`, "POST", data);
+    }
+};
 
 export const ImageUploadUrl = `${WS_URL}/uploadimg`;

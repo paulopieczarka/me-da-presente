@@ -10,7 +10,7 @@ class User
 
         app.post(`${baseUrl}/${name}/signup`, this.signup);
         app.post(`${baseUrl}/${name}/signin`, this.signin);
-        app.post(`${baseUrl}/${name}/profile`, this.profile);
+        app.get(`${baseUrl}/${name}/profile/:username`, this.profile);
     }
 
     signup(req, res)
@@ -47,7 +47,32 @@ class User
 
     profile(req, res)
     {
+        let { User } = Models;
+        User.findOne({ username: req.params.username })
+        .populate("wishlists")     
+        .exec((err, user) => {
+            if(err) {
+                res.send("error");
+                return;
+            }
 
+            let puclicWithlists = [];
+            user.wishlists.forEach(wl => {
+                if(wl.privacy === 0) {
+                    puclicWithlists.push(wl);
+                }
+            });
+
+            res.send({
+                name: user.name,
+                email: user.email,
+                birthday: user.birthday,
+                username: user.username,
+                picture: user.picture,
+                wishlists: puclicWithlists,
+                signupDate: user.signupDate
+            });
+        });
     }
 }
 

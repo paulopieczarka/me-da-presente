@@ -1,16 +1,21 @@
 import React, { Component } from "react";
-import { Badge } from 'element-react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Router, Route, Link } from 'react-router-dom';
 import Cookies from "js-cookie";
+
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import ProductsAdd from "./pages/ProductsAdd";
 import Drawer from "./components/Drawer";
+import Profile from "./pages/Profile";
+import { Image } from "./helpers/Fetcher";
 
 import 'element-theme-default';
 import "./styles/CustomTheme.css";
 import "./styles/App.css";
+
+const customHistory = createBrowserHistory();
 
 const MenuButton = (props) => <div>
     {!props.back && <button className="md-icon" onClick={props.toggleDrawer}>menu</button>}
@@ -32,23 +37,24 @@ class App extends Component
 
     componentWillMount()
     {
+        customHistory.listen(this.onLocationChange.bind(this));
+
         let user = Cookies.get("mdpresente-oauth");
         if(user) {
-            this.onSignin(user);
+            this.onSignin(JSON.parse(user));
         }
     }
 
-    toggleDrawer() {
-        this.goHome();
-        this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+    componentDidMount() {
+        this.onLocationChange(window.location, "INITIAL");
     }
 
-    goHome() 
-    {
-        /* TODO: Do it better. */
-        setTimeout(() => {
-            this.setState({ outsideHome: (window.location.pathname !== "/") });
-        }, 5);
+    onLocationChange(location, action) {
+        this.setState({ outsideHome: (location.pathname !== "/") });
+    }
+
+    toggleDrawer() {
+        this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
     }
 
     onSignin(user) {
@@ -57,29 +63,28 @@ class App extends Component
 
     render()
     {
-        if(this.state.user === null)
-        {
+        if(this.state.user === null) {
             return <Welcome onSignin={this.onSignin.bind(this)} />;
         }
 
-        return <Router><div className="app">
+        return <Router history={customHistory}><div className="app">
             <header>
                 <MenuButton 
                     toggleDrawer={this.toggleDrawer.bind(this)} 
-                    home={this.goHome.bind(this)} 
                     back={this.state.outsideHome} 
                 />
                 <div className="app-title">Me Da Presente</div>
-                <Badge isDot>
-                    <button className="md-icon">favorite</button>
-                </Badge>
+                <Link to="/profile">
+                    <Image uid={this.state.user.picture} alt="profile" className="profile-picture" />
+                </Link>
             </header>
 
             <Drawer open={this.state.isDrawerOpen} close={this.toggleDrawer.bind(this)} />
 
             <main>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={() => <Home user={this.state.user} />} />
                 <Route exact path="/products/add" component={ProductsAdd} />
+                <Route exact path="/profile/:username?" component={({match}) => <Profile user={this.state.user} params={match.params} />} />
             </main>
 
             <button className={`float${this.state.outsideHome?" hide":""}`}>add</button>

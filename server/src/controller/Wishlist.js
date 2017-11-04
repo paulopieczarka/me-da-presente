@@ -8,6 +8,7 @@ class Wishlist
         console.log(`Create router for ${baseUrl}/${name}.`);
 
         app.post(`${baseUrl}/${name}/add`, this.add);
+        app.post(`${baseUrl}/${name}/:uid`, this.get);
         app.get(`${baseUrl}/${name}/list`, this.list);
     }
 
@@ -19,6 +20,24 @@ class Wishlist
     list(req, res)
     {
         res.send("SUCCESS");
+    }
+
+    get(req, res)
+    {
+        let { Wishlist } = Models;
+        Wishlist.findOne({ _id: req.params.uid })
+        .populate("products")
+        .exec((err, list) => {
+            if(err) {
+                res.send({ status: "error", result: "Cannot retrive wishtlist." });
+                return;
+            }
+
+            list.views += 1;
+            list.save();
+
+            res.send({ status: "success", result: list });
+        });
     }
 
     _getUserDefaultLists()
