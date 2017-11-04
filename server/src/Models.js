@@ -54,7 +54,9 @@ var categorySchema = Schema({
 
 var imagesSchema = Schema({
     _id: {type: Schema.Types.ObjectId, auto: true},
-    data: Buffer
+    contentType: String,
+    size: Number,
+    img: Buffer
 });
 
 const Models = {

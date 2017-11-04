@@ -8,12 +8,12 @@ class Product extends Controller
         super("product");
     }
 
-    createRoutes(app, basicRoute) 
+    createRoutes(app, baseRoute) 
     {
-        super.createRoutes(app, basicRoute);
-
-        console.log("POST ROUTES AT WORK.");
-        app.post(`${basicRoute}/${this.name}/add`, this._add);
+        // super.createRoutes(app, baseRoute);
+        console.log("Create router for /api/product.");
+        app.post(`${baseRoute}/${this.name}/add`, this._add);
+        app.get(`${baseRoute}/${this.name}/list`, this.list);
     }
 
     _add(req, res)
@@ -29,6 +29,17 @@ class Product extends Controller
 
             res.send({ status: "SUCCESS" });
         });
+    }
+
+    list(req, res)
+    {
+        let { Product } = Models;
+        Product.find({})
+            .populate("category")
+            // .populate("picture")
+            .exec((err, products) => {
+                res.send(products);
+            });
     }
 }
 

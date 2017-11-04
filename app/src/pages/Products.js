@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { Loading } from 'element-react';
+import { Image } from "../helpers/Fetcher";
+
+import "../styles/Products.css";
 
 class Products extends Component
 {
     componentDidMount()
     {
         fetch(
-            "http://192.168.1.104:8000/api/products",
+            "http://192.168.1.104:8000/api/product/list",
             { mode: "cors" }
         )
         .then(response => response.json())
@@ -18,15 +21,19 @@ class Products extends Component
     {
         let { state } = this;
 
-        return <div>
-            {state && state.products.exclusives.map(p => 
-                <div key={p.id}>{p.name}</div>
+        return <div className="product-list">
+            {state && state.products.map(p => 
+                <div key={p._id} className="product">
+                    <Image uid={p.picture} alt={p.name} />
+                    <div className="text">
+                        <span className="p-name">{p.name}</span>
+                        <span className="p-desc">{p.description}</span>
+                    </div>
+                </div>
             )}
-            
+            {!state && <Loading loading={true} text="Loading..." fullscreen={true} />}
         </div>;
     }
 }
 
 export default Products;
-
-// {!state && <Loading loading={true} text="Loading..." fullscreen={true} />}

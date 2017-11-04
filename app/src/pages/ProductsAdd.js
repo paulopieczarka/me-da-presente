@@ -44,8 +44,6 @@ class ProductsAdd extends Component
 
     render()
     {
-        const fileList = [];
-
         return <div className="page">
             <Form labelPosition="top">
                 <Form.Item label="Name">

@@ -1,3 +1,5 @@
+import React from "react";
+
 const WS_URL = "http://192.168.1.104:8000/api";
 
 export default function Fetcher(url, method = "GET", payload)
@@ -14,6 +16,10 @@ export default function Fetcher(url, method = "GET", payload)
         .catch(error => reject(error));
     });
 }
+
+export const Image = props => {
+    return <img src={`${WS_URL}/img/${props.uid}`} {...props} />;
+};
 
 export const Category =
 {

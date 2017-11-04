@@ -3,6 +3,7 @@
     background: #F9FAFC;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 *:focus {
@@ -75,4 +76,5 @@ button.float:active {
 
 .page {
     margin: 16px;
+    overflow: hidden;
 }
