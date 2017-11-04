@@ -1,12 +1,12 @@
 .product-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     padding:8px;
 }
 
 .product-list .product {
-    flex: 1 0;
+    width: calc(50% - 24px);
     background: white;
     display: flex;
     flex-direction: column;
@@ -17,6 +17,7 @@
     text-align: center;
     overflow: hidden;
     margin:0 8px;
+    margin-bottom: 16px;
 }
 
 .product-list .product img {

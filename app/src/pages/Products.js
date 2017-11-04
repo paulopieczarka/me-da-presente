@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Loading } from 'element-react';
 import { Image } from "../helpers/Fetcher";
+import WishlistAdd from "./WishlistAdd";
 
 import "../styles/Products.css";
 
@@ -9,7 +10,7 @@ class Products extends Component
     componentDidMount()
     {
         fetch(
-            "http://192.168.1.104:8000/api/product/list",
+            "http://192.168.1.106:8000/api/product/list",
             { mode: "cors" }
         )
         .then(response => response.json())
@@ -28,10 +29,12 @@ class Products extends Component
                     <div className="text">
                         <span className="p-name">{p.name}</span>
                         <span className="p-desc">{p.description}</span>
+                        
                     </div>
                 </div>
             )}
             {!state && <Loading loading={true} text="Loading..." fullscreen={true} />}
+            <WishlistAdd />
         </div>;
     }
 }

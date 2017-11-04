@@ -26,9 +26,9 @@ var wishlistSchema = Schema({
     _id: {type: Schema.Types.ObjectId, auto: true},
     name: String,
     description: String,
-    color: String,
-    privacy: Number,
-    views: Number,
+    color: { type: String, default: "#20A0FF"},
+    privacy: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
     products: [{ type: Schema.Types.ObjectId, ref: "WishlistProduct" }]
 });
 
@@ -44,6 +44,7 @@ var wishlistProductSchema = Schema({
     _id: {type: Schema.Types.ObjectId, auto: true},
     product: { type: Schema.Types.ObjectId, ref: "Product" },
     price: Number,
+    love: Number,
     links: [String]
 });
 

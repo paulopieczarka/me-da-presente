@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('./Database');
 const Category = require("./controller/Category");
 const Product = require("./controller/Product");
+const Wishlist = require("./controller/Wishlist");
+const User = require("./controller/User");
 
 const UploadController = require("./controller/Upload");
 
@@ -28,6 +30,8 @@ var Start = () =>
     // Routes.
     Category.createRoutes(app, "/api");
     Product.createRoutes(app, "/api");
+    Wishlist.createRoutes(app, "/api");
+    User.createRoutes(app, "/api");
 
     UploadController(app, "/api"); // Add upload controller.
     

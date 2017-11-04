@@ -1,6 +1,6 @@
 import React from "react";
 
-const WS_URL = "http://192.168.1.104:8000/api";
+const WS_URL = "http://192.168.1.106:8000/api";
 
 export default function Fetcher(url, method = "GET", payload)
 {
@@ -33,4 +33,17 @@ export const Product =
     add: (data) => {
         return Fetcher("/product/add", "POST", data);
     }
+};
+
+export const User =
+{
+    signup: (data) => {
+        return Fetcher("/user/signup", "POST", data);
+    },
+
+    signin: (data) => {
+        return Fetcher("/user/signin", "POST", data);
+    }
 }
+
+export const ImageUploadUrl = `${WS_URL}/uploadimg`;

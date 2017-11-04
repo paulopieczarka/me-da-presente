@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Input, Upload, Button, Select, Message } from 'element-react';
 
-import { Category, Product } from "../helpers/Fetcher";
+import { Category, Product, ImageUploadUrl } from "../helpers/Fetcher";
 
 class ProductsAdd extends Component
 {
@@ -71,7 +71,7 @@ class ProductsAdd extends Component
                 <Form.Item label="Picture">
                     <Upload 
                         listType="text"   
-                        action="http://192.168.1.104:8000/api/uploadimg" 
+                        action={ImageUploadUrl} 
                         fileList={this.state.form.fileList}
                         className="avatar-uploader"
                         multiple={false}

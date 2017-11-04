@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Badge } from 'element-react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Cookies from "js-cookie";
 
+import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import ProductsAdd from "./pages/ProductsAdd";
 import Drawer from "./components/Drawer";
@@ -23,7 +25,16 @@ class App extends Component
 
         this.state = {
             outsideHome: false,
-            isDrawerOpen: false
+            isDrawerOpen: false,
+            user: null
+        }
+    }
+
+    componentWillMount()
+    {
+        let user = Cookies.get("mdpresente-oauth");
+        if(user) {
+            this.onSignin(user);
         }
     }
 
@@ -40,8 +51,17 @@ class App extends Component
         }, 5);
     }
 
+    onSignin(user) {
+        this.setState({ user: user });
+    }
+
     render()
     {
+        if(this.state.user === null)
+        {
+            return <Welcome onSignin={this.onSignin.bind(this)} />;
+        }
+
         return <Router><div className="app">
             <header>
                 <MenuButton 
