@@ -9,12 +9,42 @@ class Wishlist
 
         app.post(`${baseUrl}/${name}/add`, this.add);
         app.post(`${baseUrl}/${name}/:uid`, this.get);
+        app.post(`${baseUrl}/${name}/options/:userid`, this.getOptions);
         app.get(`${baseUrl}/${name}/list`, this.list);
     }
 
     add(req, res)
     {
-        res.send("SUCCESS");
+        let { WishlistProduct, Wishlist, User } = Models;
+
+        User.findOne({ _id: req.body.user })
+        .populate("wishlists")
+        .exec((err, user) => {
+            if(err) {
+                res.send({ status: "error", result: "Cannot find user." })
+                return;
+            }
+
+            let wishlistProduct = new WishlistProduct({
+                product: req.body.product,
+                price: req.body.price,
+                love: req.body.love
+            });
+
+            wishlistProduct.save();
+
+            Wishlist.findOne({ _id: req.body.wishlist }, (err, wishlist) => {
+                if(err) {
+                    res.send({ status: "error", result: "Cannot find wishlist." })
+                    return;
+                }
+
+                wishlist.products.push(wishlistProduct);
+                wishlist.save();
+
+                res.send({ status: "success", result: "Product added to wishlist." });
+            });
+        });
     }
 
     list(req, res)
@@ -37,6 +67,29 @@ class Wishlist
             list.save();
 
             res.send({ status: "success", result: list });
+        });
+    }
+
+    getOptions(req, res)
+    {
+        let { User } = Models;
+        User.findOne({ _id: req.params.userid }, "_id wishlists")
+        .populate("wishlists")
+        .exec((err, data) => {
+            if(err || !data) {
+                res.send({ status: "error", result: "Unable to retrive wishlists." });
+                return;
+            }
+
+            let userWishlists = data.wishlists.map(({_id, name, description, color, views}) => ({
+                _id: _id,
+                name: name,
+                description: description,
+                color: color,
+                views: views
+            }));
+
+            res.send({ status: "success", result: userWishlists });
         });
     }
 

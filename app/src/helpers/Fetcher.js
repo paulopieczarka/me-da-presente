@@ -56,8 +56,16 @@ export const User =
 
 export const Wishlist =
 {
+    add: (data) => {
+        return Fetcher("/wishlist/add", "POST", data);
+    },
+
     get: (uid, data) => {
         return Fetcher(`/wishlist/${uid}`, "POST", data);
+    },
+
+    options: (userid, data) => {
+        return Fetcher(`/wishlist/options/${userid}`, "POST", data);
     }
 };
 
