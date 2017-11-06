@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Alert, Message } from 'element-react';
-import { User } from "../helpers/Fetcher";
+import { Alert, Message, Button } from 'element-react';
+import { Link } from 'react-router-dom';
+import { Image, User } from "../helpers/Fetcher";
+
+import "../styles/Profile.css";
 
 class Profile extends Component
 {
@@ -9,7 +12,8 @@ class Profile extends Component
         super(props);
 
         this.state = {
-            profileData: null
+            profileData: null,
+            canAddFriend: true
         };
     }
 
@@ -19,23 +23,28 @@ class Profile extends Component
         {
             User.profile(this.props.params.username)
                 .then(result => result.json())
-                .then(json => this.setState({ profileData: json }))
+                .then(json => {
+                    this.setState({ 
+                        canAddFriend: true, 
+                        profileData: json
+                    })
+                })
                 .catch(error => Message.error("Cannot retrive profile."));
         }
         else {
-            this.setState({ profileData: this.props.user });
+            this.setState({ canAddFriend: false, profileData: this.props.user });
         }
     }
 
     render()
     {
-        return <div className="page">
-            {ProfileRender(this.state.profileData)}
+        return <div className="page profile">
+            {ProfileRender(this.state.profileData, !this.state.canAddFriend)}
         </div>;
     }
 }
 
-const ProfileRender = profile => 
+const ProfileRender = (profile, itsUser = false) => 
 {
     if(!profile) {
         return <Alert 
@@ -47,7 +56,25 @@ const ProfileRender = profile =>
         />;
     }
 
-    return <pre>{ JSON.stringify(profile, null, 2) }</pre>;
+    return <div>
+        <div className="p-top">
+            <span><Image uid={profile.picture} /></span>
+            <div>
+                <span>{profile.name}</span>
+                <span>@{profile.username}</span>
+            </div>
+            <Button icon="plus" plain={true} type="info" disabled={itsUser}>Add</Button>
+        </div>
+
+        <br/><h4>Wishlists</h4>
+        <ul>
+            { (typeof profile.wishlists[0] === "string") && profile.wishlists.map(wl => <li key={wl}>{wl}</li>) }
+            { (typeof profile.wishlists[0] === "object") && profile.wishlists.map(wl => 
+                <li key={wl.name}><Link to={`/list/${wl._id}`}>{wl.name}</Link></li>) 
+            }
+        </ul>
+        <pre>{ JSON.stringify(profile, null, 2) }</pre>
+    </div>;
 };
 
 export default Profile;

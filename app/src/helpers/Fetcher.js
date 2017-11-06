@@ -5,8 +5,7 @@ const WS_URL = "http://192.168.1.106:8000/api";
 export default function Fetcher(url, method = "GET", payload)
 {
     let data = null;
-    if(method === "POST")
-    {
+    if(method === "POST") {
         data = JSON.stringify( payload );
     }
 
@@ -18,7 +17,17 @@ export default function Fetcher(url, method = "GET", payload)
 }
 
 export const Image = props => {
-    return <img src={`${WS_URL}/img/${props.uid}`} alt="" {...props} />;
+    let elemProps = {};
+    for(let name in props) {
+        if(name === "uid" || name === "style") {
+            continue;
+        }
+
+        elemProps[name] = props[name];
+    }
+
+    return <div style={{backgroundImage:`url(${WS_URL}/img/${props.uid})`, ...props.style}} role="picture" {...elemProps} />
+    // return <img src={`${WS_URL}/img/${props.uid}`} alt="" {...props} />;
 };
 
 export const Category =

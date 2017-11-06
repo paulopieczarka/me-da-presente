@@ -20,7 +20,7 @@
     margin-bottom: 16px;
 }
 
-.product-list .product img {
+.product-list .product div[role="picture"] {
     width: 100%;
     margin-bottom: 16px;
     border-radius: 2px;

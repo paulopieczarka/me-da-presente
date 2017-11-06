@@ -51,7 +51,7 @@ class User
         User.findOne({ username: req.params.username })
         .populate("wishlists")     
         .exec((err, user) => {
-            if(err) {
+            if(err || user === null) {
                 res.send("error");
                 return;
             }

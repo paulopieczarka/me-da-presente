@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Card } from 'element-react';
 import { Wishlist as WishlistModel } from "../helpers/Fetcher";
+import { Link } from 'react-router-dom';
 
 import "../styles/Wishlist.css";
 
@@ -44,10 +44,10 @@ class Wishlist extends Component
 }
 
 const ListView = props => {
-    return <div key={props._id} className="list" style={{ borderColor: props.color }}>
+    return <Link key={props._id} to={`/list/${props._id}`}><div className="list" style={{ borderColor: props.color }}>
         <span className="wl-name">{props.name} ({props.products.length})</span>
         <span className="wl-desc">{props.description}</span>
-    </div>;
+    </div></Link>;
 };
 
 export default Wishlist;

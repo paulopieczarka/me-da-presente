@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import ProductsAdd from "./pages/ProductsAdd";
 import Drawer from "./components/Drawer";
 import Profile from "./pages/Profile";
+import WishlistView from "./pages/WishlistView";
 import { Image } from "./helpers/Fetcher";
 
 import 'element-theme-default';
@@ -84,7 +85,12 @@ class App extends Component
             <main>
                 <Route exact path="/" component={() => <Home user={this.state.user} />} />
                 <Route exact path="/products/add" component={ProductsAdd} />
-                <Route exact path="/profile/:username?" component={({match}) => <Profile user={this.state.user} params={match.params} />} />
+                <Route exact path="/profile/:username?" component={
+                    ({match}) => <Profile user={this.state.user} params={match.params} />
+                } />
+                <Route exact path="/list/:id" component={
+                    ({match}) => <WishlistView key="wishlist-view" user={this.state.user} listId={match.params.id} />
+                } />
             </main>
 
             <button className={`float${this.state.outsideHome?" hide":""}`}>add</button>

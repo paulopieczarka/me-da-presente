@@ -56,7 +56,17 @@ class Wishlist
     {
         let { Wishlist } = Models;
         Wishlist.findOne({ _id: req.params.uid })
-        .populate("products")
+        .populate({
+            path: "products", 
+            populate: { 
+                path: "product", 
+                model: "Product",
+                populate: {
+                    path: "category",
+                    model: "Category"
+                }
+            }
+        })
         .exec((err, list) => {
             if(err) {
                 res.send({ status: "error", result: "Cannot retrive wishtlist." });

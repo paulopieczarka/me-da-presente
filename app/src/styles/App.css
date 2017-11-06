@@ -23,7 +23,7 @@ header {
     box-shadow: 0 2px 6px rgba(0,0,0,.05);
 }
 
-header img.profile-picture {
+header div[role="picture"].profile-picture {
     border-radius: 50%;
     width: 26px;
     height: 26px;
@@ -86,4 +86,12 @@ button.float:active {
 .page {
     margin: 16px;
     overflow: hidden;
+}
+
+div[role="picture"] {
+    width: 100px;
+    height: 100px;
+    background: red;
+    background-size: cover;
+    background-position: center;
 }

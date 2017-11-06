@@ -98,8 +98,6 @@ class WishlistAdd extends Component
                     />
                     </Form.Item>
                 </Form>
-
-                <pre>{JSON.stringify(this.state.form, null, 2)}</pre>
             </Dialog.Body>
 
             <Dialog.Footer className="dialog-footer">
