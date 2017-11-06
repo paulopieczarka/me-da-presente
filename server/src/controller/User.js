@@ -10,7 +10,9 @@ class User
 
         app.post(`${baseUrl}/${name}/signup`, this.signup);
         app.post(`${baseUrl}/${name}/signin`, this.signin);
+        app.post(`${baseUrl}/${name}/update`, this.update);
         app.get(`${baseUrl}/${name}/profile/:username`, this.profile);
+        app.get(`${baseUrl}/${name}/list`, this.list);
     }
 
     signup(req, res)
@@ -22,6 +24,19 @@ class User
         user.save();
 
         res.send({ status: "success", result: user.username });
+    }
+
+    list(req, res)
+    {
+        let { User } = Models;
+        User.find({}, "_id name username picture", (err, users) => {
+            if(err) {
+                res.send({ status: "error", result: "Cannot retrive users." });
+                return;
+            }
+
+            res.send({ status: "success", result: users });
+        });
     }
 
     signin(req, res)
@@ -43,6 +58,31 @@ class User
             }
 
         });
+    }
+
+    update(req, res)
+    {
+        let { User } = Models;
+        User.findByIdAndUpdate(
+            req.body._id,
+            {
+                $set: {
+                    name: req.body.name,
+                    email: req.body.email,
+                    birthday: req.body.birthday,
+                    username: req.body.username,
+                    picture: req.body.picture,
+                }
+            },
+            (err, user) => {
+                if(err) {
+                    res.send({ status: "error", result: "Cannot update." });
+                    return;
+                }
+
+                res.send({ status: "success", result: user });
+            }
+        );
     }
 
     profile(req, res)

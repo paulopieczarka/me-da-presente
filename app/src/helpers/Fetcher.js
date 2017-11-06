@@ -45,7 +45,15 @@ export const Product =
 
     list: () => {
         return Fetcher("/product/list");    
-    }   
+    },
+    
+    remove: (uid) => {
+        return Fetcher("/product/remove", "POST", { id: uid });
+    },
+    
+    update: (data) => {
+        return Fetcher("/product/update", "POST", data);
+    }
 };
 
 export const User =
@@ -60,6 +68,14 @@ export const User =
 
     profile: (uid) => {
         return Fetcher(`/user/profile/${uid}`);
+    },
+
+    update: (data) => {
+        return Fetcher("/user/update", "POST", data);
+    },
+
+    list: () => {
+        return Fetcher("/user/list");
     }
 };
 

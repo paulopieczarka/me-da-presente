@@ -63,7 +63,10 @@ const ProfileRender = (profile, itsUser = false) =>
                 <span>{profile.name}</span>
                 <span>@{profile.username}</span>
             </div>
-            <Button icon="plus" plain={true} type="info" disabled={itsUser}>Add</Button>
+            { !itsUser && <Button icon="plus" plain={true} type="info">Add</Button> }
+            { itsUser && <Link to="/edit/profile">
+                <Button icon="edit" plain={true} type="info">Edit</Button>
+            </Link> }
         </div>
 
         <br/><h4>Wishlists</h4>

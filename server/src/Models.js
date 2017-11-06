@@ -40,6 +40,13 @@ var productSchema = Schema({
     category: { type: Schema.Types.ObjectId, ref: "Category" }
 });
 
+// Cascade delete.
+// productSchema.pre('remove', next => {
+//     console.log("Removing.. ", this._id);
+//     Models.WishlistProduct.remove({ product: this._id }, next);    
+// });
+
+
 var wishlistProductSchema = Schema({
     _id: {type: Schema.Types.ObjectId, auto: true},
     product: { type: Schema.Types.ObjectId, ref: "Product" },
@@ -47,6 +54,26 @@ var wishlistProductSchema = Schema({
     love: Number,
     links: [String]
 });
+
+// wishlistProductSchema.pre("remove", next => {
+//     Models.User.find({})
+//     .populate("wishlists wishlists.products")
+//     .exec((err, user) => {
+//         if(err) {
+//             return;
+//         }
+
+//         console.log("Removing things from..", this._id);
+
+//         Models.User.update({ 
+//             _id: user._id
+//         }, {
+//             $pullAll: {
+//                 products: this._id
+//             }
+//         });
+//     });
+// });
 
 var categorySchema = Schema({
     _id: {type: Schema.Types.ObjectId, auto: true},
@@ -60,7 +87,7 @@ var imagesSchema = Schema({
     img: Buffer
 });
 
-const Models = {
+var Models = {
     User: mongoose.model("User", userSchema),
     Social: mongoose.model("Social", socialSchema),
     Wishlist: mongoose.model("Wishlist", wishlistSchema),
