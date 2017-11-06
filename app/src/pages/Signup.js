@@ -81,8 +81,6 @@ class Signup extends Component
 
                 <Button>Cancelar</Button>
                 <Button type="primary" onClick={this.onSubmit.bind(this)}>Sign Up</Button>
-
-                <pre>{JSON.stringify(this.state.form, null, 2)}</pre>
             </Form>
         </div>;
     }

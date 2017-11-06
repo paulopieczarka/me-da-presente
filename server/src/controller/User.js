@@ -11,6 +11,7 @@ class User
         app.post(`${baseUrl}/${name}/signup`, this.signup);
         app.post(`${baseUrl}/${name}/signin`, this.signin);
         app.post(`${baseUrl}/${name}/update`, this.update);
+        app.post(`${baseUrl}/${name}/wishlist/remove`, this.removeFromWishlist);
         app.get(`${baseUrl}/${name}/profile/:username`, this.profile);
         app.get(`${baseUrl}/${name}/list`, this.list);
     }
@@ -37,6 +38,23 @@ class User
 
             res.send({ status: "success", result: users });
         });
+    }
+
+    removeFromWishlist(req, res)
+    {
+        let { User } = Models;
+        console.log(req.body);
+        User.findOne({ _id: req.body.userId }, (err, user) => {
+            if(err || !user) {
+                res.send({ status: "error", result: "Cannot remove product." });
+                return;
+            }
+
+            user.products.remove(req.body.productId);
+            user.save();
+
+            res.send({ status: "success", result: "Product removed." });
+        })
     }
 
     signin(req, res)

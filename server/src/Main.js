@@ -41,6 +41,6 @@ var Start = () =>
     
     app.listen(8000, function () {
         console.log("Servidor Janus is runnning at 8000.")
-    })
+    });
 };
 

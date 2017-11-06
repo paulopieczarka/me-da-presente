@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Message } from 'element-react';
-import {Image, Wishlist } from "../helpers/Fetcher";
+import { Message, Dialog, Button } from 'element-react';
+import {Image, User, Wishlist } from "../helpers/Fetcher";
 
 class WishlistView extends Component
 {
@@ -9,6 +9,7 @@ class WishlistView extends Component
         super(props);
 
         this.state = {
+            dialogVisible: false,
             data: null
         };
     }
@@ -24,8 +25,36 @@ class WishlistView extends Component
     {
         Wishlist.get(listId, { all: true })
             .then(result => result.json())
-            .then(json => this.setState({ data: json.result }))
+            .then(json => { this.setState({ data: json.result }); console.log(json.result) })
             .catch(err => Message.error("Cannot load withlist data."));
+    }
+
+    onDelete(product) {
+        this.setState({ dialogVisible: product });
+    }
+
+    onDeleteConfirm()
+    {
+        console.log(this.state.dialogVisible._id, this.props.user._id);
+        User.removeFromWishlist(this.state.dialogVisible._id, this.props.user._id)
+            .then(result => result.json())
+            .then(json => {
+                let { data } = this.state;
+                
+                let index = -1;
+                data.products.forEach((p, i) => {
+                    if(p._id === this.state.dialogVisible._id) {
+                        index = i;
+                    }
+                });
+
+                data.splice(index, 1);
+
+                Message.success("Product removed from list.");
+            })
+            .catch(err => Message.error("Cannot load withlist data."));
+
+        this.setState({ dialogVisible: false });
     }
 
     render()
@@ -48,9 +77,26 @@ class WishlistView extends Component
                 <span><i className="material-icons">person_outline</i> {this.props.user.name}</span>
             </p>
 
+             <Dialog
+                title="Remove"
+                size="large"
+                visible={ this.state.dialogVisible }
+                onCancel={ () => this.setState({ dialogVisible: false }) }
+                lockScroll={ false }
+            >
+                <Dialog.Body>
+                <span>This is a message</span>
+                </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                <Button onClick={ () => this.setState({ dialogVisible: false }) }>Cancel</Button>
+                <Button type="primary" onClick={this.onDeleteConfirm.bind(this)}>Confirm</Button>
+                </Dialog.Footer>
+            </Dialog>
+
             <br/><h4>Wishes for...</h4>
             <ul className="wishlist-products">
-                {data.products.map(({love, price, product}) => <li key={product._id} className="product-item">
+                {data.products.map(({love, price, product}) => 
+                <li key={product._id} className="product-item" onClick={this.onDelete.bind(this, product)}>
                     <Image uid={product.picture} alt={product.description} style={{borderColor:data.color}} />
                     <div className="item-desc">
                         <div>

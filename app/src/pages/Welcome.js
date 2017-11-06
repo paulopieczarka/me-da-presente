@@ -69,8 +69,6 @@ class Welcome extends Component
                 </Form.Item>
 
                 <Button type="primary" style={{width:"100%"}} onClick={this.onSubmit.bind(this)}>Sign In</Button>
-
-                <pre>{JSON.stringify(this.state.form, null, 2)}</pre>
             </Form>
             <br/>
             <Button type="success" size="large" style={{width:"100%"}} onClick={this.openSignup.bind(this)}>Sign Up</Button>

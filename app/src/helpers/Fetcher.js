@@ -76,6 +76,10 @@ export const User =
 
     list: () => {
         return Fetcher("/user/list");
+    },
+
+    removeFromWishlist: (uid, productId) => {
+        return Fetcher("/user/wishlist/remove", "POST", { userId: uid, productId: productId });
     }
 };
 
